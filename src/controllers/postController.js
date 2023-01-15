@@ -21,6 +21,29 @@ const getAll = async (req, res) => {
   }
 };
 
+const getAllByTag = async (req, res) => {
+  try {
+    const { tag } = req.params;
+  
+    const posts = await Post
+      .find({ tags: tag })
+      .populate('author', { fullName: true, email: true, })
+      .sort([['createdAt', 'desc']])
+      .exec();
+    
+    if (!posts) {
+      res.status(404).json([]);
+    }
+    
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: 'Ошибка получения статей',
+    });
+  }
+};
+
 const getOne = async (req, res) => {
   try {
     const { id } = req.params;
@@ -125,4 +148,4 @@ const getLastTags = async (req, res) => {
   }
 };
 
-export { getAll, getOne, create, update, remove, getLastTags };
+export { getAll, getAllByTag, getOne, create, update, remove, getLastTags };
