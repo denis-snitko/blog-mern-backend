@@ -24,6 +24,8 @@ const postSchema = new Schema(
       required: true,
     },
     imageUrl: String,
+    createdAt: {type: Number, default: Date.now},
+    updatedAt: {type: Number, default: Date.now},
   },
   { versionKey: false, timestamps: true },
 );
