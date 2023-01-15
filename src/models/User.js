@@ -16,6 +16,8 @@ const userSchema = new Schema(
       required: true,
     },
     avatarUrl: String,
+    createdAt: {type: Number, default: Date.now},
+    updatedAt: {type: Number, default: Date.now},
   },
   { versionKey: false, timestamps: true },
 );
