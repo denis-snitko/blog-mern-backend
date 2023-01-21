@@ -16,7 +16,7 @@ export const userService = {
       });
 
       const { _id, email, fullName, avatarUrl, createdAt, updatedAt } = await document.save();
-      const token = jwt.sign({ _id }, 'mySecretKey', { expiresIn: '1d' });
+      const token = jwt.sign({ _id }, 'mySecretKey', { expiresIn: 60 });
 
       res.status(201).json({ _id, email, fullName, avatarUrl, createdAt, updatedAt, token });
     } catch (error) {
@@ -51,7 +51,7 @@ export const userService = {
         });
       }
 
-      const token = jwt.sign({ _id }, 'mySecretKey', { expiresIn: '1d' });
+      const token = jwt.sign({ _id }, 'mySecretKey', { expiresIn: 60 });
 
       res.json({ _id, email, fullName, avatarUrl, createdAt, updatedAt, token });
     } catch (error) {
