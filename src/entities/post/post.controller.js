@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { postService } from './post.service.js';
-import { checkAuth, handleValidationErrors, postValidation } from '../../helpers/middleware/index.js';
+import { checkAuth, handleValidationErrors, postValidation } from '../../middleware/index.js';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { upload } from '../../helpers/multerInit.js';
-import checkAuth from '../../helpers/middleware/checkAuth.js';
+import checkAuth from '../../middleware/checkAuth.js';
 import { uploadService } from './upload.service.js';
 
 const router = Router();

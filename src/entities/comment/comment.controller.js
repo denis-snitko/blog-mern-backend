@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { commentService } from './comment.service.js';
-import checkAuth from '../../helpers/middleware/checkAuth.js';
+import checkAuth from '../../middleware/checkAuth.js';
 
 const router = Router();
 

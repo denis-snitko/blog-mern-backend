@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkAuth, handleValidationErrors, loginValidation, registerValidation } from '../../helpers/middleware/index.js';
+import { checkAuth, handleValidationErrors, loginValidation, registerValidation } from '../../middleware/index.js';
 import { userService } from './user.service.js';
 
 const router = Router();
