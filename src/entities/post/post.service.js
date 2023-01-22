@@ -43,6 +43,28 @@ export const postService = {
     }
   },
 
+  getAllPopular: async (req, res) => {
+    try {
+      const { tag } = req.params;
+
+      const posts = await Post.find()
+        .populate('author', { fullName: true, avatarUrl: true })
+        .sort([['viewsCount', 'desc']])
+        .exec();
+
+      if (!posts) {
+        res.status(404).json([]);
+      }
+
+      res.json(posts);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: 'Ошибка получения статей',
+      });
+    }
+  },
+
   getOne: async (req, res) => {
     try {
       const { id } = req.params;
