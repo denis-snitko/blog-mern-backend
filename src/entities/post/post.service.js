@@ -3,7 +3,14 @@ import Post from './post.schema.js';
 export const postService = {
   getAll: async (req, res) => {
     try {
+      const { count, page } = req.query;
+
+      const total = await Post.countDocuments();
+      const skip = count * (page - 1);
+
       const posts = await Post.find()
+        .skip(skip)
+        .limit(count)
         .populate('author', { fullName: true, avatarUrl: true })
         .sort([['createdAt', 'desc']])
         .exec();
@@ -12,7 +19,34 @@ export const postService = {
         res.status(404).json([]);
       }
 
-      res.json(posts);
+      res.json({ data: posts, page: count ? Number(page) : 1, count: Number(count) || total, total });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: 'Ошибка получения статей',
+      });
+    }
+  },
+
+  getAllPopular: async (req, res) => {
+    try {
+      const { count, page } = req.query;
+
+      const total = await Post.countDocuments();
+      const skip = count * (page - 1);
+
+      const posts = await Post.find()
+        .skip(skip)
+        .limit(count)
+        .populate('author', { fullName: true, avatarUrl: true })
+        .sort([['viewsCount', 'desc']])
+        .exec();
+
+      if (!posts) {
+        res.status(404).json([]);
+      }
+
+      res.json({ data: posts, page: count ? Number(page) : 1, count: Number(count) || total, total });
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -34,29 +68,7 @@ export const postService = {
         res.status(404).json([]);
       }
 
-      res.json(posts);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        message: 'Ошибка получения статей',
-      });
-    }
-  },
-
-  getAllPopular: async (req, res) => {
-    try {
-      const { tag } = req.params;
-
-      const posts = await Post.find()
-        .populate('author', { fullName: true, avatarUrl: true })
-        .sort([['viewsCount', 'desc']])
-        .exec();
-
-      if (!posts) {
-        res.status(404).json([]);
-      }
-
-      res.json(posts);
+      res.json({ data: posts });
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -79,7 +91,7 @@ export const postService = {
         });
       }
 
-      res.json(post);
+      res.json({ data: post });
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -96,7 +108,7 @@ export const postService = {
 
       const post = await document.save();
 
-      res.json(post);
+      res.json({ data: post });
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -127,7 +139,7 @@ export const postService = {
         });
       }
 
-      res.json(post);
+      res.json({ data: post });
     } catch (error) {
       console.log(error);
       res.status(500).json({
